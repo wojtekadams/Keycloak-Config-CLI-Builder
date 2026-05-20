@@ -43,3 +43,4 @@ jobs:
         with:
           name: keycloak-config-cli-${{ env.TAG_NAME }}
           path: ${{ env.REPO_NAME }}/target/*.jar
+          retention-days: 1
