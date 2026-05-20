@@ -18,13 +18,6 @@ jobs:
       TAG_NAME: ${{ github.event.inputs.tag_name }}
 
     steps:
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-          cache: maven
-
       - name: Clone repository
         run: git clone "$REPOSITORY_URL"
 
@@ -32,6 +25,13 @@ jobs:
         run: |
           cd "$REPO_NAME"
           git checkout "tags/v$TAG_NAME"
+          
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
 
       - name: Build JAR
         run: |
