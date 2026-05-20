@@ -14,6 +14,6 @@ The workflow:
 
 1. Open the **Actions** tab in your repository
 2. Select: Build Keycloak Config CLI
-3. Wair
+3. Wait
 4. Download Artifact
 5. Enjoy ;)
