@@ -14,7 +14,9 @@ The workflow:
 
 1. Fork repository
 2. Open the **Actions** tab in repository
-3. Select: Build Keycloak Config CLI
-4. Wait
+![alt text](img.png)
+3. Select: **Build Keycloak Config CLI**
+4. Wait...
 5. Download Artifact
 6. Enjoy ;)
+
