@@ -25,7 +25,7 @@ jobs:
         run: |
           cd "$REPO_NAME"
           git checkout "tags/v$TAG_NAME"
-          
+
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -44,3 +44,10 @@ jobs:
           name: keycloak-config-cli-${{ env.TAG_NAME }}
           path: ${{ env.REPO_NAME }}/target/*.jar
           retention-days: 1
+
+      - name: Summary
+        run: |
+          echo "## Build completed" >> $GITHUB_SUMMARY
+          echo "" >> $GITHUB_SUMMARY
+          echo "Artifact download:" >> $GITHUB_SUMMARY
+          echo "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_SUMMARY
