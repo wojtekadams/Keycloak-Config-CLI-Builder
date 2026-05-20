@@ -47,7 +47,7 @@ jobs:
 
       - name: Summary
         run: |
-          echo "## Build completed" >> $GITHUB_SUMMARY
-          echo "" >> $GITHUB_SUMMARY
-          echo "Artifact download:" >> $GITHUB_SUMMARY
-          echo "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_SUMMARY
+          echo "## Build completed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Artifact download:" >> $GITHUB_STEP_SUMMARY
+          echo "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> $GITHUB_STEP_SUMMARY
