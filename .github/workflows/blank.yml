@@ -1,0 +1,61 @@
+name: Build Keycloak Config CLI
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag to build (e.g. 6.4.1)'
+        required: true
+        default: '6.4.1'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      REPOSITORY_URL: https://github.com/adorsys/keycloak-config-cli.git
+      REPO_NAME: keycloak-config-cli
+      TAG_NAME: ${{ github.event.inputs.tag_name }}
+
+    steps:
+      - name: Checkout current repo
+        uses: actions/checkout@v4
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install Maven dependencies (current project)
+        run: mvn clean install -DskipTests
+
+      - name: Clone external repository
+        run: |
+          if [ -d "$REPO_NAME" ]; then
+            rm -rf "$REPO_NAME"
+          fi
+          git clone "$REPOSITORY_URL"
+
+      - name: Checkout tag and build external repo
+        run: |
+          cd "$REPO_NAME"
+          git checkout --detach "tags/v$TAG_NAME"
+          mvn clean package -DskipTests
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: keycloak-config-cli-${{ env.TAG_NAME }}
+          path: ${{ env.REPO_NAME }}/target/*.jar
+          retention-days: 7
+
+      - name: Cleanup
+        if: always()
+        run: rm -rf "$REPO_NAME" || true
