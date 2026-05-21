@@ -1,4 +1,4 @@
-# Keycloak Config CLI Builder
+# Keycloak Config CLI Jar Builder
 
 Simple GitHub Actions workflow for building custom versions of [keycloak-config-cli](https://github.com/adorsys/keycloak-config-cli) directly from selected Git tags.
 
