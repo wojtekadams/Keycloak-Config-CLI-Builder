@@ -12,6 +12,7 @@ env:
   REPOSITORY_URL: https://github.com/adorsys/keycloak-config-cli.git
   REPO_NAME: keycloak-config-cli
   TAG_NAME: ${{ github.event.inputs.tag_name }}
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
