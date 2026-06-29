@@ -18,9 +18,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-
-
     steps:
+      - name: Set Release Name
+        run: echo "RELEASE_NAME=${{ env.REPO_NAME }}-${{ env.TAG_NAME }}" >> $GITHUB_ENV
+    
       - name: Clone repository
         run: git clone "$REPOSITORY_URL"
 
@@ -46,8 +47,8 @@ jobs:
         with:
           name: keycloak-config-cli-${{ env.TAG_NAME }}
           path: |
-            ${{ env.REPO_NAME }}/target/*.jar
-            ${{ env.REPO_NAME }}/pom.xml
+            ${{ env.REPO_NAME }}/target/keycloak-config-cli.jar => ${{ env.RELEASE_NAME }}.jar
+            ${{ env.REPO_NAME }}/pom.xml => ${{ env.RELEASE_NAME }}.pom
           retention-days: 1
 
   publish:
