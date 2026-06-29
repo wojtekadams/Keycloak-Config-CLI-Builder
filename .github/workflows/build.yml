@@ -41,8 +41,7 @@ jobs:
         run: |
           cd "$REPO_NAME"
           mkdir -p staging
-          # spring-boot repackage zostawia jeden *.jar w target (*.jar.original nie łapie się w glob)
-          cp target/*.jar "staging/keycloak-config-cli-${TAG_NAME}.jar"
+          cp target/keycloak-config-cli.jar "staging/keycloak-config-cli-${TAG_NAME}.jar"
           cp pom.xml      "staging/keycloak-config-cli-${TAG_NAME}.pom"
           ls -la staging
 
