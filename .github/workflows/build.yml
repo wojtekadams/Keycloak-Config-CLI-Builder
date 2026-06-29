@@ -6,7 +6,7 @@ on:
       tag_name:
         description: 'Tag to build (e.g. 6.4.1)'
         required: true
-        default: '6.4.1'
+        default: '6.5.1'
 
 env:
   REPOSITORY_URL: https://github.com/adorsys/keycloak-config-cli.git
