@@ -47,7 +47,7 @@ jobs:
           name: keycloak-config-cli-${{ env.TAG_NAME }}
           path: |
             ${{ env.REPO_NAME }}/target/*.jar
-            ${{ env.REPO_NAME }}/target/*.pom
+            ${{ env.REPO_NAME }}/pom.xml
           retention-days: 1
 
   publish:
