@@ -45,7 +45,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: keycloak-config-cli-${{ env.TAG_NAME }}
-          path: ${{ env.REPO_NAME }}/target/*.jar
+          path: |
+            ${{ env.REPO_NAME }}/target/*.jar
+            ${{ env.REPO_NAME }}/target/*.pom
           retention-days: 1
 
   publish:
