@@ -12,12 +12,10 @@ env:
   REPOSITORY_URL: https://github.com/adorsys/keycloak-config-cli.git
   REPO_NAME: keycloak-config-cli
   TAG_NAME: ${{ github.event.inputs.tag_name }}
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Clone repository
         run: git clone "$REPOSITORY_URL"
@@ -39,19 +37,26 @@ jobs:
           cd "$REPO_NAME"
           mvn clean package -DskipTests
 
+      - name: Stage artifacts
+        run: |
+          cd "$REPO_NAME"
+          mkdir -p staging
+          # spring-boot repackage zostawia jeden *.jar w target (*.jar.original nie łapie się w glob)
+          cp target/*.jar "staging/keycloak-config-cli-${TAG_NAME}.jar"
+          cp pom.xml      "staging/keycloak-config-cli-${TAG_NAME}.pom"
+          ls -la staging
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: keycloak-config-cli-${{ github.event.inputs.tag_name }}
-          path: |
-            ${{ env.REPO_NAME }}/target/keycloak-config-cli.jar => keycloak-config-cli-${{ github.event.inputs.tag_name }}.jar
-            ${{ env.REPO_NAME }}/pom.xml => keycloak-config-cli-${{ github.event.inputs.tag_name }}.pom
+          path: ${{ env.REPO_NAME }}/staging/
+          if-no-files-found: error
           retention-days: 1
 
   publish:
     runs-on: ubuntu-latest
-    needs: build 
-
+    needs: build
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
@@ -63,3 +68,4 @@ jobs:
           echo "## Build completed" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Artifact downloaded from previous job." >> $GITHUB_STEP_SUMMARY
+          ls -la
